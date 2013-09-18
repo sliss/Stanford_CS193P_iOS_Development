@@ -34,7 +34,9 @@
 
 - (IBAction)digitPressed:(UIButton *)sender { //pointer UIButton is pointer to a UIBUtton object
     NSString *digit = [sender currentTitle]; //declares *digit as a pointer to a string equal to the sender's currentTitle
-    
+    if ([digit isEqualToString:@"π"]) {
+        digit = @"3.1415";
+    }
     self.validInput = YES; //assume valid to start
     if ([@"." isEqualToString:digit]) {
         if(self.thereIsADecimal) { // already a decimal?  not valid!
