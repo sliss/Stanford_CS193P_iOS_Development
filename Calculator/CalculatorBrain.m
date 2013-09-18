@@ -50,4 +50,8 @@
     return result;
     
 }
+
+- (void)clearStack{
+    self.operandStack = nil;
+}
 @end

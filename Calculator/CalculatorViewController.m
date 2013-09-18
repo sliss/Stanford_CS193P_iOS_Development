@@ -20,6 +20,8 @@
 @implementation CalculatorViewController
 
 @synthesize display = _display;
+@synthesize history = _history;
+
 @synthesize userIsInTheMiddleOfEnteringANumber = _userIsInTheMiddleOfEnteringANumber;
 @synthesize thereIsADecimal = _thereIsADecimal;
 @synthesize validInput = _validInput;
@@ -48,6 +50,10 @@
         self.userIsInTheMiddleOfEnteringANumber = YES;
     }
     
+    if(self.validInput) {
+        self.history.text = [self.history.text stringByAppendingString:digit];
+    }
+    
     
     // debug: NSLog(@"digit pressed = %@", digit);
     
@@ -56,10 +62,19 @@
 
     
 }
+
+- (IBAction)clearPressed { //clear display and history, erase stack
+    
+    self.display.text = @"0";
+    self.history.text = @"";
+    self.userIsInTheMiddleOfEnteringANumber = NO;
+}
+
 - (IBAction)enterPressed {
     [self.brain pushOperand:[self.display.text doubleValue]];
     self.userIsInTheMiddleOfEnteringANumber = NO;
     self.thereIsADecimal = NO;
+    self.history.text = [self.history.text stringByAppendingString:@" "];
 }
 
 
@@ -70,9 +85,14 @@
     NSString *operation = [sender currentTitle];
     double result = [self.brain performOperation:operation];
     self.display.text = [NSString stringWithFormat:@"%g",result];
+    self.history.text = [self.history.text stringByAppendingString:operation];
 }
 
 
 
 
+- (void)viewDidUnload {
+    [self setHistory:nil];
+    [super viewDidUnload];
+}
 @end
